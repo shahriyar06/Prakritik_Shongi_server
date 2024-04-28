@@ -12,8 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 
-// prakritik-shongi
-// hridoy1294
 
 
 
