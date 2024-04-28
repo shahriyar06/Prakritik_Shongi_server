@@ -33,11 +33,16 @@ async function run() {
 
     const craftcollection = client.db('craftDB').collection('craft');
 
+    app.get('/craftlist', async(req, res) =>{
+      const cursor = craftcollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+  })
+
     app.post('/craftlist', async(req, res) =>{
         const newcraft = req.body;
-        console.log(newcraft);
         const result = await craftcollection.insertOne(newcraft);
-        res.send(result)
+        res.send(result);
     })
 
     // Send a ping to confirm a successful connection
