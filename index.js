@@ -39,11 +39,6 @@ async function run() {
       res.send(result);
     })
 
-    // app.get('/craftlist/:id', async (req, res) => {
-    //   const id = craftcollection.find();
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // })
     app.get('/craftlist/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
@@ -54,6 +49,29 @@ async function run() {
     app.post('/craftlist', async (req, res) => {
       const newcraft = req.body;
       const result = await craftcollection.insertOne(newcraft);
+      res.send(result);
+    })
+
+    // craft data updated server
+    app.put('/craftlist/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedcraft = req.body;
+      const updated = {
+        $set: {
+          title: updatedcraft.title,
+           subcategory: updatedcraft.subcategory,
+           imageurl: updatedcraft.imageurl,
+           description: updatedcraft.description,
+           price: updatedcraft.price,
+           rating: updatedcraft.rating,
+           customization: updatedcraft.customization,
+           stockStatus: updatedcraft.stockStatus,
+           processingtime: updatedcraft.processingtime
+        }
+      } 
+      const result = await craftcollection.updateOne(filter, updated);
       res.send(result);
     })
 
